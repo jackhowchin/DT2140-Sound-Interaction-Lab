@@ -55,9 +55,15 @@ function accelerationChange(accx, accy, accz) {
     // playAudio()
 }
 
-// CREAKING DOOR: spin the phone while it lies flat on a table.
-// rotz is the turn angle around the Z axis (0 to 360 degrees). How fast it changes = how fast we spin.
-// Faster spin = more force on the hinge = stronger creak. No spin = silent.
+// CONNECTION 2, CREAKING DOOR: the phone is spun while lying on a flat surface.
+//
+// We pictured the phone on a table as a door on its hinge. Spinning it is like swinging the
+// door, so it creaks. Spin faster and the creak gets stronger, like more force on the hinge.
+// When the phone stops, the creak stops. We picked the creaking door because that sound comes
+// from friction, and friction sounds tell you how hard someone is pushing.
+//
+// How the code does it: rotz is the turn angle around the Z axis (0 to 360 degrees). How fast
+// it changes is how fast we spin. No spin means the sound is switched off.
 let prevRotZ = null;
 let spinSmooth = 0;
 

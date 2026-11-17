@@ -55,8 +55,16 @@ function accelerationChange(accx, accy, accz) {
     // playAudio()
 }
 
-// WIND: place the phone flat in your hand and tilt it side to side.
-// roty is the left/right tilt in degrees. The more tilt (either way), the stronger the wind.
+// CONNECTION 1, WIND: the phone is placed flat in the hand and tilted from side to side.
+//
+// We pictured the phone as a sail or a kite catching a breeze. Tilting it sways it side to
+// side, a bit like something being pushed around by the wind. The more you tilt, the stronger
+// the gust, so the wind gets louder as the angle grows and dies down as you level the phone
+// out. Tilting is a smooth movement, and wind rises and falls smoothly too, so it felt like a
+// natural fit.
+//
+// How the code does it: roty is the left/right tilt in degrees. More tilt (either way) means
+// more force on the wind sound.
 let windSmooth = 0;
 
 function rotationChange(rotx, roty, rotz) {
