@@ -12,7 +12,7 @@ let dspNodeParams = null;
 let jsonParams = null;
 
 // Change here to ("tuono") depending on your wasm file name
-const dspName = "tuono";
+const dspName = "wind";
 const instance = new FaustWasm2ScriptProcessor(dspName);
 
 // output to window or npm package module
@@ -25,7 +25,7 @@ if (typeof module === "undefined") {
 }
 
 // The name should be the same as the WASM file, so change tuono with brass if you use brass.wasm
-tuono.createDSP(audioContext, 1024)
+wind.createDSP(audioContext, 1024)
     .then(node => {
         dspNode = node;
         dspNode.connect(audioContext.destination);
@@ -55,12 +55,17 @@ function accelerationChange(accx, accy, accz) {
     // playAudio()
 }
 
-function rotationChange(rotx, roty, rotz) {
-}
+// WIND: place the phone flat in your hand and tilt it side to side.
+// roty is the left/right tilt in degrees. The more tilt (either way), the stronger the wind.
+let windSmooth = 0;
 
-function mousePressed() {
-    playAudio()
-    // Use this for debugging from the desktop!
+function rotationChange(rotx, roty, rotz) {
+    if (!dspNode) return;
+    // 5 degrees or less = level = calm, 45 degrees or more = full wind (force goes 0 to 1)
+    const target = constrain(map(abs(roty), 5, 45, 0, 1), 0, 1);
+    // smooth it so hand tremor does not make the wind flutter
+    windSmooth = windSmooth + 0.2 * (target - windSmooth);
+    dspNode.setParamValue("/wind/wind/force", windSmooth);
 }
 
 function deviceMoved() {
@@ -74,7 +79,6 @@ function deviceTurned() {
 function deviceShaken() {
     shaketimer = millis();
     statusLabels[0].style("color", "pink");
-    playAudio();
 }
 
 function getMinMaxParam(address) {
@@ -95,20 +99,8 @@ function getMinMaxParam(address) {
 //
 //==========================================================================================
 
-function playAudio() {
-    if (!dspNode) {
-        return;
-    }
-    if (audioContext.state === 'suspended') {
-        return;
-    }
-    // Edit here the addresses ("/thunder/rumble") depending on your WASM controls (you can see 
-    // them printed on the console of your browser when you load the page)
-    // For example if you change to a bell sound, here you could use "/churchBell/gate" instead of
-    // "/thunder/rumble".
-    dspNode.setParamValue("/thunder/rumble", 1)
-    setTimeout(() => { dspNode.setParamValue("/thunder/rumble", 0) }, 100);
-}
+// The wind is controlled continuously from rotationChange above, so there is no playAudio here.
+// Parameter used: "/wind/wind/force" (0 to 1). Volume stays at its default of 0.7.
 
 //==========================================================================================
 // END
