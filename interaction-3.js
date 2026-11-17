@@ -73,10 +73,10 @@ function deviceTurned() {
 }
 // CONNECTION 3, BELLS: the phone is shaken.
 //
-// We pictured the phone as a handbell. A real handbell rings when you shake it, so each shake
-// of the phone strikes the bell, and the sound comes right away with no explanation needed.
-// We added a short pause after each strike, so a long shake gives a series of rings instead of
-// one messy blur of sound.
+// We pictured the phone as a church bell. A real church bell rings when you swing it, so each
+// shake of the phone strikes the bell, and the sound comes right away with no explanation
+// needed. We added a short pause after each strike, so a long shake gives a series of rings
+// instead of one messy blur of sound.
 //
 // How the code does it: deviceShaken fires on every frame while shaking, so we only allow one
 // strike per 300 ms.
